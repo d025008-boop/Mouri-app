@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <!-- モバイル最適化 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2D5A27" />
+  <!-- iOS ホーム画面追加対応 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="毛利家めぐり" />
+  <!-- Android Chrome -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <!-- OGP（SNSシェア用） -->
+  <meta name="description" content="愛媛県宇和島市三間町の旧庄屋毛利家を巡るガイドアプリ。江戸時代の暮らしを体験しよう。" />
+  <title>毛利家めぐり</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ==========================================================
+         画面1: ホーム
+         ========================================================== -->
+    <div id="page-home" class="page page--active">
+
+      <!-- ヒーローエリア -->
+      <div class="hero-wrap">
+        <div class="hero">
+          <img src="images/mourike.jpg" alt="旧庄屋毛利家" class="hero__img">
+          <div class="hero__overlay">
+            <h1 class="hero__title" data-i18n="app-title">毛利家めぐり</h1>
+            <p class="hero__catch" data-i18n="hero-catch">江戸時代の暮らしを、<br>ちょっとのぞいてみませんか？</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 言語切替ボタン -->
+      <div class="lang-switcher">
+        <button class="lang-btn lang-btn--active" data-lang="ja" onclick="setLang('ja')">日本語</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+        <button class="lang-btn" data-lang="ko" onclick="setLang('ko')">한국어</button>
+        <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      </div>
+
+      <!-- ナビゲーションカード -->
+      <div class="home-nav container">
+        <div class="home-nav__grid">
+
+          <button class="home-nav__card home-nav__card--about" onclick="showPage('about')">
+            <div class="home-nav__card-inner">
+              <div class="home-nav__emoji-wrap"><span class="home-nav__emoji">📖</span></div>
+              <span class="home-nav__label" data-i18n="nav-about-label">毛利家を知る</span>
+              <span class="home-nav__sub"   data-i18n="nav-about-sub">歴史と建物の魅力</span>
+            </div>
+          </button>
+
+          <button class="home-nav__card home-nav__card--spots" onclick="showPage('spots')">
+            <div class="home-nav__card-inner">
+              <div class="home-nav__emoji-wrap"><span class="home-nav__emoji">🗺️</span></div>
+              <span class="home-nav__label" data-i18n="nav-spots-label">屋敷をめぐる</span>
+              <span class="home-nav__sub"   data-i18n="nav-spots-sub">見どころを発見しよう</span>
+            </div>
+          </button>
+
+          <button class="home-nav__card home-nav__card--quiz" onclick="showPage('quiz')">
+            <div class="home-nav__card-inner">
+              <div class="home-nav__emoji-wrap"><span class="home-nav__emoji">❓</span></div>
+              <span class="home-nav__label" data-i18n="nav-quiz-label">毛利家クイズ</span>
+              <span class="home-nav__sub"   data-i18n="nav-quiz-sub">どれだけ知ってる？</span>
+            </div>
+          </button>
+
+          <button class="home-nav__card home-nav__card--seasons" onclick="showPage('seasons')">
+            <div class="home-nav__card-inner">
+              <div class="home-nav__emoji-wrap"><span class="home-nav__emoji">🌸</span></div>
+              <span class="home-nav__label" data-i18n="nav-seasons-label">四季の毛利家</span>
+              <span class="home-nav__sub"   data-i18n="nav-seasons-sub">季節の風景と行事</span>
+            </div>
+          </button>
+
+        </div>
+
+        <div class="home-info">
+          <p class="home-info__text" data-i18n="home-info">📍 愛媛県宇和島市三間町</p>
+        </div>
+      </div>
+
+      <!-- イベント予告エリア（JavaScriptで生成） -->
+      <div class="container">
+        <div class="events-section">
+          <h2 class="events-section__title" data-i18n="events-title">
+            <span class="events-section__title-icon">📣</span>イベント・展示のご案内
+          </h2>
+          <div id="events-list"></div>
+        </div>
+      </div>
+
+    </div><!-- /#page-home -->
+
+    <!-- ==========================================================
+         画面2: 毛利家を知る
+         ========================================================== -->
+    <div id="page-about" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-about-title">毛利家を知る</h1>
+      </div>
+      <div id="about-list" class="container section"></div>
+    </div><!-- /#page-about -->
+
+    <!-- ==========================================================
+         画面3: 屋敷をめぐる
+         ========================================================== -->
+    <div id="page-spots" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-spots-title">屋敷をめぐる</h1>
+      </div>
+      <div class="container">
+        <div class="progress-wrap">
+          <div class="progress-wrap__text">
+            <span id="spots-progress-text">0個発見！</span>
+            <span class="progress-wrap__total" id="spots-progress-total"></span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="spots-progress-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+      <div id="spots-list" class="container section"></div>
+    </div><!-- /#page-spots -->
+
+    <!-- ==========================================================
+         画面4: 毛利家クイズ
+         ========================================================== -->
+    <div id="page-quiz" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-quiz-title">毛利家クイズ</h1>
+      </div>
+
+      <div id="quiz-playing" class="container section">
+        <div class="quiz-progress">
+          <span id="quiz-progress-text" class="quiz-progress__text">1問目 / 5問</span>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="quiz-progress-bar" style="width: 20%"></div>
+          </div>
+        </div>
+        <div class="quiz-question-card card">
+          <p class="quiz-question__label">Q.</p>
+          <p id="quiz-question-text" class="quiz-question__text"></p>
+        </div>
+        <div id="quiz-choices" class="quiz-choices"></div>
+        <div id="quiz-feedback" class="quiz-feedback hidden">
+          <div id="quiz-feedback-result" class="quiz-feedback__result"></div>
+          <p id="quiz-feedback-explanation" class="quiz-feedback__explanation"></p>
+          <button id="quiz-next-btn" class="btn-primary" onclick="quizNext()">次の問題へ →</button>
+        </div>
+      </div>
+
+      <div id="quiz-result" class="container section hidden">
+        <div class="quiz-result-card card">
+          <p class="quiz-result__emoji" id="quiz-result-emoji">🎉</p>
+          <p class="quiz-result__title" id="quiz-result-title">結果</p>
+          <p class="quiz-result__score" id="quiz-result-score"></p>
+          <p class="quiz-result__message" id="quiz-result-message"></p>
+          <button class="btn-primary mt-16" onclick="quizReset()">もう一度挑戦する</button>
+          <button class="btn-secondary mt-8" onclick="showPage('home')">ホームに戻る</button>
+        </div>
+      </div>
+    </div><!-- /#page-quiz -->
+
+    <!-- ==========================================================
+         画面5: 四季の毛利家
+         ========================================================== -->
+    <div id="page-seasons" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-seasons-title">四季の毛利家</h1>
+      </div>
+      <div id="seasons-list" class="container section"></div>
+    </div><!-- /#page-seasons -->
+
+    <!-- ==========================================================
+         画面6: アクセス
+         ========================================================== -->
+    <div id="page-access" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-access-title">アクセス</h1>
+      </div>
+      <div class="container section">
+
+        <!-- Google マップ埋め込み -->
+        <div class="access-map-wrap">
+          <iframe
+            class="access-map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3297.8!2d132.5833!3d33.2167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x354e4b2b2b2b2b2b%3A0x0!2z5pep5bqr5bGL5mY!5e0!3m2!1sja!2sjp!4v1234567890"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="旧庄屋毛利家の地図"
+          ></iframe>
+        </div>
+
+        <!-- アクセス情報カード -->
+        <div class="access-card card">
+
+          <div class="access-row">
+            <span class="access-row__icon">📍</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-addr-label">住所</p>
+              <p class="access-row__value" data-i18n="access-addr">愛媛県宇和島市三間町</p>
+            </div>
+          </div>
+          <div class="access-divider"></div>
+
+          <div class="access-row">
+            <span class="access-row__icon">🕐</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-hours-label">開館時間</p>
+              <p class="access-row__value" data-i18n="access-hours">要確認</p>
+            </div>
+          </div>
+          <div class="access-divider"></div>
+
+          <div class="access-row">
+            <span class="access-row__icon">📅</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-closed-label">休館日</p>
+              <p class="access-row__value" data-i18n="access-closed">要確認</p>
+            </div>
+          </div>
+          <div class="access-divider"></div>
+
+          <div class="access-row">
+            <span class="access-row__icon">🎫</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-fee-label">入館料</p>
+              <p class="access-row__value" data-i18n="access-fee">要確認</p>
+            </div>
+          </div>
+          <div class="access-divider"></div>
+
+          <div class="access-row">
+            <span class="access-row__icon">🚗</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-car-label">お車でお越しの方</p>
+              <p class="access-row__value" data-i18n="access-car">要確認</p>
+            </div>
+          </div>
+          <div class="access-divider"></div>
+
+          <div class="access-row">
+            <span class="access-row__icon">🚌</span>
+            <div class="access-row__content">
+              <p class="access-row__label" data-i18n="access-bus-label">バスでお越しの方</p>
+              <p class="access-row__value" data-i18n="access-bus">要確認</p>
+            </div>
+          </div>
+
+        </div><!-- /.access-card -->
+
+        <a
+          class="access-map-link"
+          href="https://maps.google.com/?q=旧庄屋毛利家+愛媛県宇和島市三間町"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span data-i18n="access-map-btn">🗺️ Google マップで開く</span>
+        </a>
+
+      </div>
+    </div><!-- /#page-access -->
+
+    <!-- ==========================================================
+         画面7: アンケート
+         ========================================================== -->
+    <div id="page-survey" class="page">
+      <div class="page-header">
+        <button class="page-header__back" onclick="showPage('home')" aria-label="ホームに戻る">←</button>
+        <h1 class="page-header__title" data-i18n="page-survey-title">気になるイベント</h1>
+      </div>
+      <div class="container section">
+        <div id="survey-form-wrap"></div>
+      </div>
+    </div><!-- /#page-survey -->
+
+  </div><!-- /#app -->
+
+  <!-- ボトムナビゲーション -->
+  <nav class="bottom-nav" aria-label="メインナビゲーション">
+    <button class="bottom-nav__item bottom-nav__item--active" id="nav-home" onclick="showPage('home')">
+      <span class="bottom-nav__emoji">🏠</span>
+      <span class="bottom-nav__label" data-i18n="bnav-home">ホーム</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-about" onclick="showPage('about')">
+      <span class="bottom-nav__emoji">📖</span>
+      <span class="bottom-nav__label" data-i18n="bnav-about">知る</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-spots" onclick="showPage('spots')">
+      <span class="bottom-nav__emoji">🗺️</span>
+      <span class="bottom-nav__label" data-i18n="bnav-spots">めぐる</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-quiz" onclick="showPage('quiz')">
+      <span class="bottom-nav__emoji">❓</span>
+      <span class="bottom-nav__label" data-i18n="bnav-quiz">クイズ</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-seasons" onclick="showPage('seasons')">
+      <span class="bottom-nav__emoji">🌸</span>
+      <span class="bottom-nav__label" data-i18n="bnav-seasons">四季</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-access" onclick="showPage('access')">
+      <span class="bottom-nav__emoji">🚗</span>
+      <span class="bottom-nav__label" data-i18n="bnav-access">アクセス</span>
+    </button>
+    <button class="bottom-nav__item" id="nav-survey" onclick="showPage('survey')">
+      <span class="bottom-nav__emoji">📝</span>
+      <span class="bottom-nav__label" data-i18n="bnav-survey">感想</span>
+    </button>
+  </nav>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
